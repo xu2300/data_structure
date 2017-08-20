@@ -3,7 +3,7 @@ package design;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
+/*
 public class MorseEncodeandDecode {
 
         HashMap<String, String> hm;
@@ -27,7 +27,7 @@ public class MorseEncodeandDecode {
                 hm.put("M", "--");
                 hm.put("N", "-.");
                 hm.put("O", "---");
-                hm.put("P", ".--.");. 
+                hm.put("P", ".--.");
                 hm.put("Q", "--.-");
                 hm.put("R", ".-.");
                 hm.put("S", "...");
@@ -82,4 +82,4 @@ public class MorseEncodeandDecode {
                         System.out.println(s);
                 }
         }
-}
+}*/

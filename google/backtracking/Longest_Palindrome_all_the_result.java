@@ -7,7 +7,7 @@ public class Longest_Palindrome_all_the_result {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		//可以delete，重新排序
-		for(String s: one_longest_palidrome("data")){
+		for(String s: one_longest_palidrome("atatdc")){
 			System.out.println(s);
 		}
 	}
@@ -16,46 +16,41 @@ public class Longest_Palindrome_all_the_result {
 		List<String> r= new ArrayList<String>();
 		if(s==null || s.length()==0) return r;
         HashMap<Character,Integer> hs = new HashMap<Character,Integer>();
-        int count = 0;
         for(int i=0; i<s.length(); i++){
-            if(!hs.containsKey(s.charAt(i))){
-            	hs.put(s.charAt(i), 1);
-            }else{
-            	int num = hs.get(s.charAt(i));
-            	if(num%2 ==0) count++;
-            	else count--;
-                hs.put(s.charAt(i), num+1);
-            }
+            char c = s.charAt(i);
+            hs.put(c, hs.getOrDefault(c,0)+1);
         }
-        List<Character> mid = new ArrayList<Character>();
-        List<Character> l = new ArrayList<Character>();
+        int count = 0;
+        HashMap<Character,Integer> mid = new HashMap<>();
+        HashSet<Character> l = new HashSet<>();
         for(char m:hs.keySet()){
         	int n = hs.get(m);
         	if(n%2==1){
-        		mid.add(m);
-        	}
-        	for(int i=0; i<n/2; i++)
         		l.add(m);
+        	}
+        	count += n/2;
+            mid.put(m,n/2);
         }
-        dfs(l, new boolean[l.size()], new StringBuilder(), r,  mid);
+        dfs(mid,new StringBuilder(), r, l, count);
         return r;
 	}
 	
-	public static void dfs(List<Character> nums, boolean[] used, StringBuilder list, List<String> res,List<Character>  mid){
-        if(list.length()== nums.size()){
-        	StringBuilder s = new StringBuilder(list);
-        	for(char middle:mid)
-            res.add(s.toString() + middle + s.reverse().toString());
+	public static void dfs(HashMap<Character,Integer> mid, StringBuilder list, List<String> r, HashSet<Character> l, int count){
+        if(list.length() == count){
+            for(char c : l){
+                StringBuilder cur = new StringBuilder(list);
+                r.add(cur.toString()+c+cur.reverse().toString());
+            }
             return;
         }
-        for(int i=0;i<nums.size();i++){
-            if(used[i]) continue;
-            if(i>0 &&nums.get(i-1)==nums.get(i) && !used[i-1]) continue;
-            used[i]=true;
-            list.append(nums.get(i));
-            dfs(nums,used,list,res,mid);
-            used[i]=false;
+        for(char c : mid.keySet()){
+            int n = mid.get(c);
+            if(n ==0) continue;
+            mid.put(c,n-1);
+            list.append(c);
+            dfs(mid,list, r, l, count);
             list.deleteCharAt(list.length()-1);
+            mid.put(c,n);
         }
     }
 
